@@ -75,12 +75,11 @@ class Post(models.Model):
     def preview(self):
         return self.text[0:124] + '...'
 
-    # def get_absolute_url(self):
-    #     return reverse('post_detail', args=[str(self.id)])
-
     def __str__(self):
         return f'{self.title.title()}:{self.text.title()}:{self.date_in}'
 
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.id)])
 
 
 
