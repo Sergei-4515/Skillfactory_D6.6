@@ -13,6 +13,7 @@ Posts
                 <td><b>Заголовок</b></td>
                 <td><b>Дата публикации</b></td>
                 <td><b>Публикация</b></td>
+                <td><b>Тип публикации</b></td>
             </tr>
 
             {% for post in posts %}
@@ -20,6 +21,7 @@ Posts
                 <td>{{ post.title|censor }}</td>
                 <td>{{ post.date_in|date:'d M Y' }}</td>
                 <td>{{ post.text|truncatechars:20|censor }}</td>
+                <td>{{ post.get_article_news_display }}</td>
             </tr>
             {% endfor %}
         </table>

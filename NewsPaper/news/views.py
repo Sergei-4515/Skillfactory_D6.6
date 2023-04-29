@@ -45,18 +45,8 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         post = form.save(commit=False)
-        post.article_news = 'news'
-        return super().form_valid(form)
-
-class ArticleCreate(PermissionRequiredMixin, CreateView):
-    permission_required = 'news.add_post'
-    form_class = PostForm
-    model = Post
-    template_name = 'article_create.html'
-
-    def form_valid(self, form):
-        post = form.save(commit=False)
-        post.article_news = 'article'
+        if self.request.path == '/news/articles/create/':
+            post.article_news = 'AR'
         return super().form_valid(form)
 
 class PostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
