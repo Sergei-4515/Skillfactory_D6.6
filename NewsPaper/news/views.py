@@ -1,6 +1,8 @@
 from datetime import datetime
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
 from .models import Post
 from .filters import PostFilter
 from .forms import PostForm
@@ -35,7 +37,8 @@ class PostSearch(ListView):
         context['filterset'] = self.filterset
         return context
 
-class NewsCreate(CreateView):
+class NewsCreate(PermissionRequiredMixin, CreateView):
+    permission_required = 'news.add_post'
     form_class = PostForm
     model = Post
     template_name = 'news_create.html'
@@ -45,7 +48,8 @@ class NewsCreate(CreateView):
         post.article_news = 'news'
         return super().form_valid(form)
 
-class ArticleCreate(CreateView):
+class ArticleCreate(PermissionRequiredMixin, CreateView):
+    permission_required = 'news.add_post'
     form_class = PostForm
     model = Post
     template_name = 'article_create.html'
@@ -55,10 +59,14 @@ class ArticleCreate(CreateView):
         post.article_news = 'article'
         return super().form_valid(form)
 
-class PostUpdate(UpdateView):
+class PostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = 'news.change_post'
     form_class = PostForm
     model = Post
     template_name = 'post_update.html'
+
+# class ProtectedView(LoginRequiredMixin, TemplateView):
+#     update_name = 'post_update.html'
 
 class PostDelete(DeleteView):
     model = Post
