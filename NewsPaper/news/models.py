@@ -39,9 +39,9 @@ TOPICS = [
     (culture, 'КУЛЬТУРА')
 ]
 
-
 class Category(models.Model):
     topic = models.CharField(max_length=2, choices=TOPICS, default=politics, unique=True)
+    subscribers = models.ManyToManyField(User, related_name='categories')
 
     def __str__(self):
         return self.topic.title()

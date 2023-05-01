@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'news.apps.NewsConfig',
     'django.contrib.sites',
 
     'allauth',
@@ -48,12 +49,11 @@ INSTALLED_APPS = [
 
     'django.contrib.flatpages',
     'django_filters',
-    'news',
+
     'sign',
     'protect',
+    'django_apscheduler',
 ]
-
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -152,9 +152,6 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
-
-# LOGIN_URL = 'sign/login/'
-
 LOGIN_URL = 'accounts/login'
 LOGIN_REDIRECT_URL = '/'
 
@@ -162,7 +159,20 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  #приветственное письмо и верификация пользователя по почте
 ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
+
+SITE_URL = 'http://127.0.0.1:8000'
+
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'ru4515'
+EMAIL_HOST_PASSWORD = os.getenv("PASSWORD")
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'ru4515@yandex.ru'
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 
 SITE_ID = 1

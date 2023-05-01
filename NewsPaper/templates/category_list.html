@@ -1,4 +1,5 @@
 {% extends 'flatpages/default.html' %}
+
 {% load custom_filters %}
 
 {% block title %}
@@ -6,8 +7,18 @@ Posts
 {% endblock title %}
 
 {% block content %}
-    <h2>Всего новостей: {{ object_list|length }}</h2>
-    {% if posts %}
+    <h3> Новости </h3>
+    <h4><a href="{{ category.id }}" >{{ category }}</a></h4>
+    <form action="" method="get">
+        {% csrf_token %}
+        {{ filterset.form.as_p }}
+        {% if is_not_subscriber %}
+         <p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm">Подписаться</a></p>
+        {% endif %}
+    </form>
+
+    <hr>
+    {% if category_news_list %}
         <table>
             <tr>
                 <td><b>Заголовок</b></td>
@@ -15,22 +26,22 @@ Posts
                 <td><b>Публикация</b></td>
                 <td><b>Тип публикации</b></td>
                 <td><b>Категория</b></td>
-
             </tr>
 
-            {% for post in posts %}
+            {% for post in category_news_list %}
             <tr>
                 <td>{{ post.title|truncatechars:20|censor }}</td>
                 <td>{{ post.date_in|date:'d M Y' }}</td>
                 <td>{{ post.text|truncatechars:50|censor }}</td>
                 <td>{{ post.get_article_news_display }}</td>
                 <td>{% for category in post.category.all %}
-                <a href="categories/{{ category.id }}">{{ category }}</a>
+                <a href="{{ category.id }}">{{ category }}</a>
                 {% endfor %}
                 </td>
             </tr>
             {% endfor %}
         </table>
+
     {% else %}
         <h2>Новостей нет!</h2>
     {% endif %}
@@ -56,6 +67,3 @@ Posts
    {% endif %}
 
 {% endblock content %}
-
-
-
