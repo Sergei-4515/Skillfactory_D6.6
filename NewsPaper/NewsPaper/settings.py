@@ -176,3 +176,10 @@ APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 
 SITE_ID = 1
+
+CELERY_BROKER_URL = 'redis://default:fXf0Ww50wna8PoXWFjBiVLHNVJAL2Svq@redis-13759.c299.asia-northeast1-1.gce.cloud.redislabs.com:13759'
+# redis-cli -u redis://<username>:<password>@redis-13759.c299.asia-northeast1-1.gce.cloud.redislabs.com:13759
+CELERY_RESULT_BACKEND = 'redis://default:fXf0Ww50wna8PoXWFjBiVLHNVJAL2Svq@redis-13759.c299.asia-northeast1-1.gce.cloud.redislabs.com:13759'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
